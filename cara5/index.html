@@ -9,11 +9,19 @@
       let mic;
       let sinus;
       let cosinus;
+      let flyX, flyY;
+      let flySpeedX, flySpeedY;
       
       function setup() {
         createCanvas(windowWidth, windowHeight);
         mic = new p5.AudioIn();
         mic.start();
+        
+        // Inicialización de la posición y velocidad de la mosca
+        flyX = random(width);
+        flyY = random(height);
+        flySpeedX = random(1, 3);
+        flySpeedY = random(1, 3);
       }
 
       function draw() {
@@ -38,12 +46,13 @@
         fill(movsinus * 5, 255 - movcosinus * 5, 100 + movsinus * 3);
         ellipse(mouseX / 2 + 70, mouseY / 2 - 60 - movcosinus, 50, 50 + h * noise2);
         
-        // Dibuja las cejas
+        // Dibuja las cejas (movimiento dependiente de la señal de audio)
         stroke(50);
         strokeWeight(8);
         noFill();
-        arc(mouseX / 2 - 70, mouseY / 2 - 90, 100, 50, PI, 0); // ceja izquierda
-        arc(mouseX / 2 + 70, mouseY / 2 - 90, 100, 50, PI, 0); // ceja derecha
+        let eyebrowMovement = sin(frameCount * 0.05) * 20; // Movimiento de las cejas
+        arc(mouseX / 2 - 70, mouseY / 2 - 90 + eyebrowMovement, 100, 50, PI, 0); // ceja izquierda
+        arc(mouseX / 2 + 70, mouseY / 2 - 90 + eyebrowMovement, 100, 50, PI, 0); // ceja derecha
         
         // Dibuja la nariz
         fill(255, 200, 150);
@@ -56,6 +65,22 @@
         // Dibuja la boca
         fill(movsinus * 5, 180 - movsinus * 5, 127 + movsinus * 2);
         arc(mouseX / 2, mouseY / 2 + 90, 100, 50 + h, 0, PI);
+        
+        // Mueve la mosca
+        flyX += flySpeedX;
+        flyY += flySpeedY;
+        
+        // Rebote de la mosca en los bordes de la pantalla
+        if (flyX > width || flyX < 0) {
+          flySpeedX *= -1;
+        }
+        if (flyY > height || flyY < 0) {
+          flySpeedY *= -1;
+        }
+        
+        // Dibuja la mosca
+        fill(0);
+        ellipse(flyX, flyY, 10, 10);
       }
     </script>
   </body>
