@@ -8,15 +8,24 @@
 let mic;
      
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  mic = new p5.AudioIn(); // Guarda la entrada de audio
-  mic.start(); // Activa el micrófono
+  createCanvas(windowWidth,windowHeight);
+  mic = new p5.AudioIn(); // guarda a la variable mic una entrada de audio de p5.js
+  mic.start(); // activa el micrófono
 }
 
 function draw() {
   let vol = mic.getLevel();
   let h = map(vol, 0, 1, 0, 800);
+  background(200 + h, 50 + h, 255); // Cambié el fondo con colores más suaves
+  fill(100 + h, 150 - h, 255); // Cambié los colores de la elipse principal
+  ellipse(windowWidth / 2, windowHeight / 2, 350, 350); // Aumenté el tamaño de la elipse principal
   
-  // Cambiar el fondo y las formas según el volumen
-  background(200 + h / 2, 100, 150); // Fondo de color basado en el volumen
-  
+  fill(255 - h, 0, h); // Cambié el color de los ojos
+  ellipse(windowWidth / 2 - 80, windowHeight / 2 - 70, 60, 60); // Cambié el tamaño de los ojos
+  ellipse(windowWidth / 2 + 80, windowHeight / 2 - 70, 60, 60); // Cambié el tamaño de los ojos
+
+  arc(windowWidth / 2, windowHeight / 2 + 100, 120, 70 + h, 0, PI); // Cambié el tamaño del arco
+}
+    </script>
+  </body>
+</html>
