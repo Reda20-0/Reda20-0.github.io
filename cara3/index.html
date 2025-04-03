@@ -24,11 +24,11 @@
         
         background(78, 170 + movsinus, 207 + movsinus); // color de fondo
         
-        // Color dinámico para la cara, basado en el tamaño de la cara y el volumen
-        let faceColorR = map(h, 0, 800, 200, 255); // Rojo dinámico
-        let faceColorG = map(h, 0, 800, 150, 255); // Verde dinámico
-        let faceColorB = map(h, 0, 800, 100, 255); // Azul dinámico
-        
+        // Interpolación de color dinámico para la cara entre azul y verde
+        let faceColorG = map(h, 0, 800, 100, 255); // Verde dinámico
+        let faceColorB = map(h, 0, 800, 200, 255); // Azul dinámico
+        let faceColorR = map(sinus, -1, 1, 0, 50); // Rojo suave, solo levemente ajustado por sinus
+
         fill(faceColorR, faceColorG, faceColorB);
         ellipse(windowWidth / 2, windowHeight / 2, 300 + movsinus, 300 + movsinus); // cara
 
