@@ -5,34 +5,38 @@
   </head>
   <body>
     <script>
-let mic;
+      let mic;
       let temblar;
     
       function setup() {
-  createCanvas(windowWidth,windowHeight);
-        mic=new p5.AudioIn();// guarda a la variable mic una entrada de audio de p5.js
-        mic.start();// activa el micròfon
-}
-function draw() {
-  temblar=random(10,50)
-  let vol=mic.getLevel();
-  let h=map(vol,0,1,0,800);
-  background(78, 170, 207);// color de fons
-  fill(222, 215-h, 145);// color cara
-  ellipse(windowWidth/2,windowHeight/2,300+temblar,300+temblar);// cara
-  // windowWidth/2 significa que el centre de la cara coincideix amb el centre de la finestra
-  // windowHeight/2 significa el centre de la cara en alçada i coincideix amb el centre de la cara
-  // el primer que hi ha entre parentesis és diu paramètre y es la posició de X y del centre de la cara
-  // el segon paramètre és la posició Y
-  // el tercer paràmetre es l'amplada de la cara
-  // el quart és l'alçada de la cara
-  // temblar esta sumat a la amplada i alçada de la cara i canviara aleatoriament entre 10-50 pixels
-  fill(0, 0, 0+h*2);// color ulls
-  ellipse(windowWidth/2-70,windowHeight/2-60,50-h,50-h);// ull dret
-  ellipse(windowWidth/2+70,windowHeight/2-60-h,50,50+h);// ull esquerra
-  arc(windowWidth/2,windowHeight/2+90,100,50+h,0,PI);// boca
-}
-      console.log(h);
+        createCanvas(windowWidth, windowHeight);
+        mic = new p5.AudioIn(); // Entrada de audio
+        mic.start(); // Activar el micrófono
+      }
+
+      function draw() {
+        temblar = random(10, 60); // Movimiento aleatorio
+        let vol = mic.getLevel(); // Obtener el volumen del micrófono
+        let h = map(vol, 0, 1, 0, 500); // Sensibilidad ajustada
+
+        // Fondo con un color más oscuro
+        background(40, 40, 120); // Color de fondo
+
+        // Cara con un color cálido y tamaño variable
+        fill(255, 100, 100 + h * 0.5); // Color cálido de la cara, cambia con el volumen
+        ellipse(windowWidth / 2, windowHeight / 2, 400 + temblar, 400 + temblar); // Cara con tamaño variable
+
+        // Ojos con tamaño variable y color oscuro
+        fill(0, 0, 0 + h * 3); // Ojos más oscuros con mayor volumen
+        ellipse(windowWidth / 2 - 80, windowHeight / 2 - 80, 80 - h, 80 - h); // Ojo derecho
+        ellipse(windowWidth / 2 + 80, windowHeight / 2 - 80 - h, 80 + h, 80 + h); // Ojo izquierdo
+
+        // Boca con tamaño ajustable según el volumen
+        fill(200, 50, 50); // Color de la boca
+        arc(windowWidth / 2, windowHeight / 2 + 120, 150, 70 + h, 0, PI); // Boca ajustable
+
+        console.log(h); // Mostrar el valor de sensibilidad (opcional)
+      }
     </script>
-</body>
+  </body>
 </html>
