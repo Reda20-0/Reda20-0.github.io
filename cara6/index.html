@@ -12,11 +12,11 @@
        let temblar;
        let sinus;
        let flyX = 50; // Inicializamos la posición X de la mosca
-       let flyY = 50; // Inicializamos la posición Y de la mosca
+       let flyY = 100; // Inicializamos la posición Y de la mosca (más arriba)
        let directionX = 1; // Dirección inicial de la mosca en X
        let directionY = 1; // Dirección inicial de la mosca en Y
        let speedX = 2; // Velocidad de movimiento en el eje X
-       let speedY = 1; // Velocidad de movimiento en el eje Y
+       let speedY = 0.5; // Velocidad reducida para el movimiento en Y
 
       function setup() {
         createCanvas(windowWidth, windowHeight);
@@ -28,16 +28,16 @@
       function draw() {
         t += 0.01;
 
-        // Movimiento en zigzag y aleatorio de la mosca
+        // Movimiento de la mosca (limitado más arriba en la pantalla)
         flyX += random(-speedX, speedX) * directionX; // Movimiento aleatorio en X
-        flyY += random(-speedY, speedY) * directionY; // Movimiento aleatorio en Y
+        flyY += random(-speedY, speedY) * directionY; // Movimiento aleatorio en Y, con velocidad más baja
 
         // Cambiar dirección en los bordes
         if (flyX > windowWidth - 50 || flyX < 50) {
           directionX *= -1; // Invertir dirección en X
         }
-        if (flyY > windowHeight - 50 || flyY < 50) {
-          directionY *= -1; // Invertir dirección en Y
+        if (flyY > windowHeight / 3 || flyY < 50) { // Limitar el movimiento vertical
+          directionY *= -1; // Invertir dirección en Y solo dentro de la zona más arriba
         }
 
         let noiseX = noise(t) * 100 - 50;
@@ -67,14 +67,4 @@
         strokeWeight(5);
         noFill();
         line(windowWidth / 2 - 100, windowHeight / 2 - 100 - movsinus, windowWidth / 2 - 35, windowHeight / 2 - 110);
-        arc(windowWidth / 2 + 70, windowHeight / 2 - 100 - movsinus, 70, 30 + h, PI, 0);
-      }
-
-      function changeBackground() {
-        bgColor = color(random(100, 255), random(100, 255), random(100, 255));
-      }
-
-      console.log(h);
-    </script>
-  </body>
-</html>
+        arc(windowWidth / 2 + 70, windowHeight / 2 - 100 - movsinus, 70, 30 + h
