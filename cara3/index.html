@@ -12,7 +12,7 @@
       function setup() {
         createCanvas(windowWidth, windowHeight);
         mic = new p5.AudioIn(); // guarda a la variable mic una entrada de audio de p5.js
-        mic.start(); // activa el micròfon
+        mic.start(); // activa el micrófono
       }
 
       function draw() {
@@ -24,8 +24,12 @@
         
         background(78, 170 + movsinus, 207 + movsinus); // color de fondo
         
-        // Cambia el color de la cara, por ejemplo, usando movsinus para hacerlo dinámico
-        fill(222 + movsinus * 0.5, 215 + movsinus * 0.5, 145); // Color dinámico para la cara
+        // Color dinámico para la cara, basado en el tamaño de la cara y el volumen
+        let faceColorR = map(h, 0, 800, 200, 255); // Rojo dinámico
+        let faceColorG = map(h, 0, 800, 150, 255); // Verde dinámico
+        let faceColorB = map(h, 0, 800, 100, 255); // Azul dinámico
+        
+        fill(faceColorR, faceColorG, faceColorB);
         ellipse(windowWidth / 2, windowHeight / 2, 300 + movsinus, 300 + movsinus); // cara
 
         // Color de los ojos
