@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.min.js" integrity="sha512-1YMgn4j8cIL91s14ByDGmHtBU6+F8bWOMcF47S0cRO3QNm8SKPNexy4s3OCim9fABUtO++nJMtcpWbINWjMSzQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/addons/p5.sound.min.js" integrity="sha512-WzkwpdWEMAY/W8WvP9KS2/VI6zkgejR4/KTxTl4qHx0utqeyVE0JY+S1DlMuxDChC7x0oXtk/ESji6a0lP/Tdg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </head>
+  <body>
+    <button onclick="changeBackground();">Canvia Fons</button>
+    <script>
+       let t = 0;
+       let bgColor; 
+       let mic;
+       let temblar;
+       let sinus;
+       let flyX = 50; // Inicializamos la posición X de la mosca
+       let flyY = 50; // Inicializamos la posición Y de la mosca
+       let directionX = 1; // Dirección inicial de la mosca en X
+       let directionY = 1; // Dirección inicial de la mosca en Y
+       let speedX = 2; // Velocidad de movimiento en el eje X
+       let speedY = 1; // Velocidad de movimiento en el eje Y
+
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        mic = new p5.AudioIn();
+        mic.start();
+        bgColor = color(200, 220, 255);
+      }
+
+      function draw() {
+        t += 0.01;
+
+        // Movimiento en zigzag y aleatorio de la mosca
+        flyX += random(-speedX, speedX) * directionX; // Movimiento aleatorio en X
+        flyY += random(-speedY, speedY) * directionY; // Movimiento aleatorio en Y
+
+        // Cambiar dirección en los bordes
+        if (flyX > windowWidth - 50 || flyX < 50) {
+          directionX *= -1; // Invertir dirección en X
+        }
+        if (flyY > windowHeight - 50 || flyY < 50) {
+          directionY *= -1; // Invertir dirección en Y
+        }
+
+        let noiseX = noise(t) * 100 - 50;
+        let noiseY = noise(t + 100) * 100 - 50;
+
+        temblar = random(10, 50);
+        sinus = sin(frameCount * 0.1);
+        let movsinus = map(sinus, -1, 1, 0, 20);
+        let vol = mic.getLevel();
+        let h = map(vol, 0, 1, 0, 800);
+
+        background(bgColor);
+        fill(142, 203, 64 + movsinus);
+        ellipse(windowWidth / 2, windowHeight / 2, 300 + movsinus, 300 + movsinus);
+
+        fill(5, 23 + h * 2, 14);
+        ellipse(windowWidth / 2 - 70, windowHeight / 2 - 60, 50 - h, 50 - h + movsinus * 2);
+        ellipse(windowWidth / 2 + 70, windowHeight / 2 - 60 - h, 50, 50 + h + movsinus * 2);
+        arc(windowWidth / 2, windowHeight / 2 + 90, 100, 50 + h, 0, PI);
+
+        fill(0, 0, 0);
+        ellipse(flyX, flyY, 20, 20); // Posición de la mosca en las coordenadas flyX, flyY
+        fill(255, 255, 255);
+        ellipse(flyX + 10, flyY - 10, 25, 25); // Ala derecha de la mosca
+        ellipse(flyX - 10, flyY + 10, 25, 25); // Ala izquierda de la mosca
+
+        strokeWeight(5);
+        noFill();
+        line(windowWidth / 2 - 100, windowHeight / 2 - 100 - movsinus, windowWidth / 2 - 35, windowHeight / 2 - 110);
+        arc(windowWidth / 2 + 70, windowHeight / 2 - 100 - movsinus, 70, 30 + h, PI, 0);
+      }
+
+      function changeBackground() {
+        bgColor = color(random(100, 255), random(100, 255), random(100, 255));
+      }
+
+      console.log(h);
+    </script>
+  </body>
+</html>
