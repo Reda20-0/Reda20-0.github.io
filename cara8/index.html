@@ -5,81 +5,110 @@
   </head>
   <body>
     <button onclick="changeBackground();">Canvia Fons</button>
+
     <script>
       let t = 0;
       let bgColor;
       let mic;
       let smile = false;
-      let temblar;
-      let sinus;
-      let cosinus;
       let mosques = [];
 
+      // Función de configuración inicial
       function setup() {
         createCanvas(windowWidth, windowHeight);
         mic = new p5.AudioIn();
         mic.start();
-        bgColor = color(99, 255, 71);
+        bgColor = color(99, 255, 71);  // Color de fondo inicial
 
-        // Crear 20 mosques amb característiques aleatòries
+        // Crear 20 moscas con características aleatorias
         for (let i = 0; i < 20; i++) {
           mosques.push(new Mosca(random(width), random(height)));
         }
       }
 
+      // Función de dibujo en cada frame
       function draw() {
         t += 0.01;
 
         let noise1 = noise(t) * 100;
         let noise2 = noise(t + 100) * 50;
         let h = map(mic.getLevel(), 0, 1, 0, 300);
-        temblar = random(10, 50);
-        sinus = sin(frameCount * 0.1);
-        cosinus = sin(frameCount * 0.1);
+        let temblar = random(10, 50);
 
         background(bgColor);
 
-        // Cara
-        fill(249, 255 + h, 71);
-        ellipse(mouseX, mouseY, 300 + noise1, 300 + noise1);
+        // Dibujo de la cara
+        drawFace(mouseX, mouseY, h, noise1);
 
-        // Boca
-        fill(209, 37, 0);
-        if (smile) {
-          arc(mouseX, mouseY + 90, 100, 50 + h, 0, PI);
-        } else {
-          arc(mouseX, mouseY + 90, 100, 50 + h, PI, TWO_PI);
-        }
+        // Dibujo de la boca
+        drawMouth(mouseX, mouseY, h);
 
-        // Nas
-        fill(243, 233, 23);
-        triangle(
-          mouseX, mouseY - 60 - h * 3,
-          mouseX - 15, mouseY + 20 - h * 3,
-          mouseX + 15, mouseY + 20 - h * 3
-        );
+        // Dibujo de la nariz
+        drawNose(mouseX, mouseY, h);
 
-        // Barret más grande
-        fill(0);
-        rect(mouseX - 150, mouseY - 170 - h * 3, 300, 50);
-        rect(mouseX - 120, mouseY - 270 - h * 3, 240, 200);
+        // Dibujo del sombrero
+        drawHat(mouseX, mouseY, h);
 
-        // Ulls
-        fill(255 + temblar * h / 4, 255, 255);
-        ellipse(mouseX - 70 + h * 3, mouseY - 60 + h * 3, 50 + noise2, 50 + noise2);
-        ellipse(mouseX + 70 + h * 3, mouseY - 60 + h * 3, 50 + noise2, 50 + noise2);
+        // Dibujo de los ojos
+        drawEyes(mouseX, mouseY, h, noise2, temblar);
 
-        fill(0 + temblar * h / 2, 0, 0);
-        ellipse(mouseX - 70 + h * 3, mouseY - 60 + h * 3, 30, 30);
-        ellipse(mouseX + 70 + h * 3, mouseY - 60 + h * 3, 30, 30);
+        // Dibujo de la línea
+        drawLine(mouseX, mouseY);
 
-        // Dibuixar totes les mosques
+        // Dibujo de las moscas
         for (let m of mosques) {
-          m.mou();
-          m.mostra();
+          m.mover();
+          m.mostrar();
         }
       }
 
+      // Funciones de dibujo
+      function drawFace(x, y, h, noise1) {
+        fill(249, 255 + h, 71);
+        ellipse(x, y, 300 + noise1, 300 + noise1);
+      }
+
+      function drawMouth(x, y, h) {
+        fill(209, 37, 0);
+        if (smile) {
+          arc(x, y + 90, 100, 50 + h, 0, PI);
+        } else {
+          arc(x, y + 90, 100, 50 + h, PI, TWO_PI);
+        }
+      }
+
+      function drawNose(x, y, h) {
+        fill(243, 233, 23);
+        triangle(
+          x, y - 60 - h * 3,
+          x - 15, y + 20 - h * 3,
+          x + 15, y + 20 - h * 3
+        );
+      }
+
+      function drawHat(x, y, h) {
+        fill(0);
+        rect(x - 100, y - 170 - h * 3, 200, 50);
+        rect(x - 60, y - 270 - h * 3, 120, 150);
+      }
+
+      function drawEyes(x, y, h, noise2, temblar) {
+        fill(255 + temblar * h / 4, 255, 255);
+        ellipse(x - 70 + h * 3, y - 60 + h * 3, 50, 50 + noise2);
+        ellipse(x + 70 + h * 3, y - 60 + h * 3, 50, 50 + noise2);
+
+        fill(0 + temblar * h / 2, 0, 0);
+        ellipse(x - 70 + h * 3, y - 60 + h * 3, 30, 30);
+        ellipse(x + 70 + h * 3, y - 60 + h * 3, 30, 30);
+      }
+
+      function drawLine(x, y) {
+        strokeWeight(5);
+        noFill();
+        line(x - 100, y - 90, x - 10, y - 10);
+      }
+
+      // Clase Mosca
       class Mosca {
         constructor(x, y) {
           this.x = x;
@@ -92,37 +121,14 @@
           this.offsetY = random(1000);
         }
 
-        mou() {
-          // moviment suau amb Perlin noise
+        mover() {
+          // Movimiento suave con Perlin noise
           this.x += map(noise(this.offsetX), 0, 1, -1, 1);
           this.y += map(noise(this.offsetY), 0, 1, -1, 1);
           this.offsetX += 0.01;
           this.offsetY += 0.01;
         }
 
-        mostra() {
+        mostrar() {
           push();
-          translate(this.x, this.y);
-
-          // Ales
-          fill(this.colorAla);
-          ellipse(-this.ample * 0.8, -this.alt * 0.5, this.ample, this.alt);
-          ellipse(this.ample * 0.8, -this.alt * 0.5, this.ample, this.alt);
-
-          // Cos
-          fill(this.colorCos);
-          ellipse(0, 0, this.ample + 5, this.alt + 10);
-
-          pop();
-        }
-      }
-
-      function keyPressed() {
-        if (key === 'S' || key === 's') {
-          smile = !smile;
-        }
-      }
-
-      function changeBackground() {
-        bgColor = color(random(100, 255), random(100, 255),
-
+          translate(this.x, this.y
