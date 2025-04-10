@@ -1,1 +1,70 @@
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/addons/p5.sound.min.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <button onclick="changeBackground();">Canvia Fons</button>
+    <script>
+      let t = 0;
+      let bgColor;
+      let mic;
+      let temblar;
+      let sinus;
+
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        mic = new p5.AudioIn();
+        mic.start();
+        bgColor = color(100, 180, 240); // color més viu de fons per començar
+      }
+
+      function draw() {
+        t += 0.005; // Reducido para que el movimiento sea más suave
+
+        let noiseX = noise(t) * 100 - 50;
+        let noiseY = noise(t + 100) * 100 - 50;
+
+        temblar = random(20, 100); // Movimiento más grande
+        sinus = sin(frameCount * 0.05); // Movimiento más lento
+        let movsinus = map(sinus, -1, 1, 0, 60); // Movimiento sinus más grande
+
+        let vol = mic.getLevel();
+        let h = map(vol, 0, 1, 0, 1000); // Sensibilidad más grande para exagerar
+
+        background(bgColor);
+
+        // Cara con color diferente
+        fill(255, 180, 220 + movsinus); // Tonos rosados más cálidos
+        ellipse(windowWidth / 2 + noiseX, windowHeight / 2 + noiseY, 300 + temblar, 300 + temblar);
+
+        // Ojos (con movimiento más grande y más lento)
+        fill(20, 40 + h * 2, 100); // Color de los ojos más azul
+        ellipse(windowWidth / 2 - 100 + movsinus, windowHeight / 2 - 90 + movsinus, 80 - h / 10, 80 - h / 10); // Ojo izquierdo
+        ellipse(windowWidth / 2 + 100 - movsinus, windowHeight / 2 - 90 - movsinus, 80 + h / 15, 80 + h / 15); // Ojo derecho
+
+        // Boca (más distante)
+        arc(windowWidth / 2, windowHeight / 2 + 120 + movsinus, 160 + h / 10, 80 + h / 8, 0, PI); // Boca más grande
+
+        // Mosquito
+        fill(0);
+        ellipse(50, 50, 20, 20);
+        fill(255);
+        ellipse(60, 40, 25, 25);
+        ellipse(40, 60, 25, 25);
+
+        // Cejas con movimiento más grande
+        strokeWeight(5);
+        noFill();
+        stroke(0);
+        line(windowWidth / 2 - 130, windowHeight / 2 - 130 - movsinus, windowWidth / 2 - 40, windowHeight / 2 - 140 - movsinus * 2); // Cejas más distantes
+        arc(windowWidth / 2 + 90, windowHeight / 2 - 130 - movsinus, 110, 50 + h / 20, PI, 0); // Cejas más distantes
+      }
+
+      function changeBackground() {
+        bgColor = color(random(50, 200), random(50, 200), random(150, 255));
+      }
+    </script>
+  </body>
+</html>
 
