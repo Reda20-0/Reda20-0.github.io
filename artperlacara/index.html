@@ -136,8 +136,7 @@
       switch (dominant) {
           case "happy":
       
-     // Cos
-      fill(40);
+    
       beginShape();
       vertex(200, 570);
       vertex(300, 700);
@@ -145,8 +144,7 @@
       vertex(300, 510);
       endShape(CLOSE);
 
-      // Barbeta (vermella)
-      fill(darkRed);
+    
       beginShape();
       vertex(270, 490);
       vertex(300, 540);
@@ -154,8 +152,7 @@
       vertex(300, 470);
       endShape(CLOSE);
 
-      // Boca
-      fill(black);
+    
       beginShape();
       vertex(260, 450);
       vertex(300, 470);
@@ -163,8 +160,7 @@
       vertex(300, 420);
       endShape(CLOSE);
 
-      // Galtes (blanques)
-      fill(white);
+     
       beginShape();
       vertex(220, 400);
       vertex(260, 440);
@@ -179,8 +175,7 @@
       vertex(380, 400);
       endShape(CLOSE);
 
-      // Ulls
-      fill(white);
+     
       beginShape();
       vertex(260, 360);
       vertex(270, 390);
@@ -199,8 +194,7 @@
       triangle(270, 380, 280, 370, 290, 380);
       triangle(330, 380, 320, 370, 310, 380);
 
-      // Cap vermell
-      fill(red);
+     
       beginShape();
       vertex(240, 310);
       vertex(360, 310);
@@ -209,8 +203,8 @@
       vertex(210, 360);
       endShape(CLOSE);
 
-      // Franja negra al mig
-      fill(black);
+      
+    
       beginShape();
       vertex(295, 310);
       vertex(305, 310);
@@ -218,19 +212,19 @@
       vertex(295, 420);
       endShape(CLOSE);
 
-      // Franges taronja al cap
-      fill(orange);
+       beginShape();
       triangle(240, 310, 270, 250, 300, 310);
       triangle(300, 310, 330, 250, 360, 310);
-
-      // Orelles
-      fill(white);
+endShape(CLOSE);
+  beginShape();
       triangle(240, 310, 210, 250, 250, 200);
       triangle(360, 310, 390, 250, 350, 200);
-
-      fill(black);
+  endShape(CLOSE);
+  beginShape();
       triangle(250, 200, 230, 170, 210, 250);
       triangle(350, 200, 370, 170, 390, 250);
+            endShape(CLOSE);
+
     }
   </script>
 </body>
